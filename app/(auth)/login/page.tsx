@@ -4,65 +4,46 @@ import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Mail, Lock, AlertCircle, Loader2 } from "lucide-react";
+import { Mail, Lock, AlertCircle, Loader2, Camera } from "lucide-react";
 
 /**
- * Bespoke Crafted Brand Mark:
- * Combines camera aperture geometry with a vault lock core.
+ * Small Wayfinding Logo Mark for the form panel
  */
-function VaultLogoMark() {
+function WayfindingLogo() {
   return (
     <div
       style={{
-        width: "3.5rem",
-        height: "3.5rem",
-        background: "linear-gradient(145deg, #5B7BFA 0%, #7C3AED 100%)",
-        borderRadius: "1rem",
         display: "inline-flex",
         alignItems: "center",
-        justifyContent: "center",
-        boxShadow:
-          "0 0 0 1px rgba(255, 255, 255, 0.2) inset, 0 8px 24px -4px rgba(79, 110, 247, 0.45)",
-        position: "relative",
+        gap: "0.625rem",
+        marginBottom: "2rem",
       }}
     >
-      <svg
-        width="26"
-        height="26"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+      <div
+        style={{
+          width: "2rem",
+          height: "2rem",
+          background: "linear-gradient(135deg, var(--color-accent), #7C3AED)",
+          borderRadius: "0.5rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "white",
+          boxShadow: "0 2px 8px rgba(79, 110, 247, 0.35)",
+        }}
       >
-        {/* Camera outer body */}
-        <path
-          d="M3.5 8C3.5 6.61929 4.61929 5.5 6 5.5H8.2C8.75 5.5 9.27 5.2 9.55 4.72L10.2 3.65C10.6 3 11.3 2.5 12.1 2.5H13.9C14.7 2.5 15.4 3 15.8 3.65L16.45 4.72C16.73 5.2 17.25 5.5 17.8 5.5H20C21.3807 5.5 22.5 6.61929 22.5 8V18C22.5 19.3807 21.3807 20.5 20 20.5H6C4.61929 20.5 3.5 19.3807 3.5 18V8Z"
-          stroke="white"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {/* Vault lock / lens aperture core */}
-        <circle
-          cx="13"
-          cy="13"
-          r="4.2"
-          stroke="white"
-          strokeWidth="1.8"
-        />
-        <circle
-          cx="13"
-          cy="13"
-          r="1.5"
-          fill="white"
-        />
-        {/* Small flash dot */}
-        <circle
-          cx="18.5"
-          cy="8.5"
-          r="0.9"
-          fill="white"
-        />
-      </svg>
+        <Camera size={15} strokeWidth={2.2} />
+      </div>
+      <span
+        style={{
+          fontSize: "0.9375rem",
+          fontWeight: 700,
+          color: "var(--color-text-primary)",
+          letterSpacing: "-0.02em",
+        }}
+      >
+        Photo Vault
+      </span>
     </div>
   );
 }
@@ -94,7 +75,7 @@ function LoginForm() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password. Please check your credentials.");
+        setError("Invalid email or password. Please try again.");
       } else {
         router.push(callbackUrl);
       }
@@ -106,45 +87,33 @@ function LoginForm() {
   }
 
   return (
-    <div
-      style={{
-        width: "100%",
-        background: "linear-gradient(180deg, rgba(24, 24, 28, 0.94) 0%, rgba(16, 16, 18, 0.98) 100%)",
-        border: "1px solid rgba(255, 255, 255, 0.08)",
-        borderRadius: "1.25rem",
-        padding: "2.5rem 2.25rem",
-        boxShadow:
-          "0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 24px 48px -12px rgba(0, 0, 0, 0.75), 0 0 40px -10px rgba(79, 110, 247, 0.12)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-      }}
-    >
-      {/* Brand Header */}
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <div style={{ marginBottom: "1.125rem", display: "inline-block" }}>
-          <VaultLogoMark />
-        </div>
+    <div style={{ width: "100%" }}>
+      {/* Top Small Brand Wayfinding Mark */}
+      <WayfindingLogo />
+
+      {/* Left-Aligned Headline */}
+      <div style={{ marginBottom: "1.75rem" }}>
         <h1
           style={{
-            fontSize: "1.45rem",
+            fontSize: "1.75rem",
             fontWeight: 700,
             color: "var(--color-text-primary)",
             letterSpacing: "-0.03em",
-            margin: 0,
+            margin: "0 0 0.4rem 0",
             lineHeight: 1.2,
           }}
         >
-          Photo Vault
+          Welcome back
         </h1>
         <p
           style={{
             color: "var(--color-text-muted)",
             fontSize: "0.875rem",
-            margin: "0.4rem 0 0 0",
+            margin: 0,
             letterSpacing: "-0.01em",
           }}
         >
-          Sign in to your private vault
+          Sign in to your private photo and video archive
         </p>
       </div>
 
@@ -160,7 +129,7 @@ function LoginForm() {
             background: "rgba(239, 68, 68, 0.1)",
             border: "1px solid rgba(239, 68, 68, 0.3)",
             borderRadius: "var(--radius-md)",
-            marginBottom: "1.375rem",
+            marginBottom: "1.5rem",
             fontSize: "0.8125rem",
             color: "#F87171",
             lineHeight: 1.4,
@@ -171,10 +140,10 @@ function LoginForm() {
         </div>
       )}
 
-      {/* Login Form */}
+      {/* Form Fields */}
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" }}>
-        {/* Email Field */}
-        <div style={{ marginBottom: "1.125rem" }}>
+        {/* Email */}
+        <div style={{ marginBottom: "1.25rem" }}>
           <label
             htmlFor="email"
             style={{
@@ -214,10 +183,10 @@ function LoginForm() {
               style={{
                 width: "100%",
                 padding: "0.6875rem 0.875rem 0.6875rem 2.625rem",
-                background: "rgba(10, 10, 12, 0.6)",
+                background: "var(--color-surface)",
                 border: emailFocused
                   ? "1px solid var(--color-accent)"
-                  : "1px solid rgba(255, 255, 255, 0.1)",
+                  : "1px solid var(--color-border)",
                 borderRadius: "var(--radius-md)",
                 color: "var(--color-text-primary)",
                 fontSize: "0.875rem",
@@ -231,8 +200,8 @@ function LoginForm() {
           </div>
         </div>
 
-        {/* Password Field */}
-        <div style={{ marginBottom: "1rem" }}>
+        {/* Password */}
+        <div style={{ marginBottom: "1.125rem" }}>
           <div
             style={{
               display: "flex",
@@ -300,10 +269,10 @@ function LoginForm() {
               style={{
                 width: "100%",
                 padding: "0.6875rem 0.875rem 0.6875rem 2.625rem",
-                background: "rgba(10, 10, 12, 0.6)",
+                background: "var(--color-surface)",
                 border: passwordFocused
                   ? "1px solid var(--color-accent)"
-                  : "1px solid rgba(255, 255, 255, 0.1)",
+                  : "1px solid var(--color-border)",
                 borderRadius: "var(--radius-md)",
                 color: "var(--color-text-primary)",
                 fontSize: "0.875rem",
@@ -317,8 +286,8 @@ function LoginForm() {
           </div>
         </div>
 
-        {/* Remember Me Option */}
-        <div style={{ display: "flex", alignItems: "center", marginBottom: "1.5rem" }}>
+        {/* Remember Me */}
+        <div style={{ display: "flex", alignItems: "center", marginBottom: "1.75rem" }}>
           <label
             style={{
               display: "inline-flex",
@@ -345,7 +314,7 @@ function LoginForm() {
           </label>
         </div>
 
-        {/* Primary Action Button (Linear-style elevation) */}
+        {/* Linear-Style Elevated Sign-in Button */}
         <button
           type="submit"
           id="sign-in-btn"
@@ -400,30 +369,28 @@ function LoginForm() {
         </button>
       </form>
 
-      {/* Footer Navigation */}
+      {/* Footer Register Link */}
       <div
         style={{
-          marginTop: "1.75rem",
-          paddingTop: "1.25rem",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          textAlign: "center",
+          marginTop: "2rem",
+          paddingTop: "1.5rem",
+          borderTop: "1px solid var(--color-border)",
           fontSize: "0.8125rem",
           color: "var(--color-text-muted)",
         }}
       >
-        No account yet?{" "}
+        Don&apos;t have an account?{" "}
         <Link
           href="/register"
           style={{
             color: "var(--color-accent)",
             fontWeight: 600,
             textDecoration: "none",
-            transition: "color var(--duration-fast)",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
           onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
         >
-          Create one
+          Create your vault
         </Link>
       </div>
     </div>

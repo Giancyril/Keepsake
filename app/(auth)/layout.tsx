@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { AuthBrandPanel } from "@/components/auth/AuthBrandPanel";
 
 export const metadata: Metadata = {
-  title: "Sign In",
+  title: "Photo Vault",
 };
 
 export default function AuthLayout({
@@ -14,67 +15,51 @@ export default function AuthLayout({
       style={{
         minHeight: "100vh",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        background: "var(--color-bg)",
         position: "relative",
-        overflow: "hidden",
-        backgroundColor: "var(--color-bg)",
-        padding: "1.5rem",
       }}
     >
-      {/* Background Depth Layer 1: Ambient Radial Gradients */}
+      {/* Form Section: 42-45% width on desktop, 100% on mobile */}
       <div
         style={{
-          position: "absolute",
-          top: "15%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "700px",
-          height: "500px",
-          background:
-            "radial-gradient(ellipse at center, rgba(79, 110, 247, 0.14) 0%, rgba(124, 58, 237, 0.06) 45%, transparent 70%)",
-          filter: "blur(60px)",
-          pointerEvents: "none",
-          zIndex: 0,
+          flex: "1 1 auto",
+          maxWidth: "580px",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "3rem 3rem",
+          background: "var(--color-bg)",
+          position: "relative",
+          zIndex: 10,
+          boxSizing: "border-box",
         }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "10%",
-          right: "20%",
-          width: "450px",
-          height: "350px",
-          background:
-            "radial-gradient(circle at center, rgba(124, 58, 237, 0.05) 0%, transparent 65%)",
-          filter: "blur(50px)",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
+      >
+        <div style={{ width: "100%", maxWidth: "400px", margin: "auto 0" }}>
+          {children}
+        </div>
 
-      {/* Background Depth Layer 2: Subtle Geometric Grid Texture with Radial Mask */}
+        {/* Small Form-side Footer */}
+        <div
+          style={{
+            fontSize: "0.75rem",
+            color: "var(--color-text-faint)",
+            marginTop: "2rem",
+          }}
+        >
+          Photo Vault • Private & Self-Hosted
+        </div>
+      </div>
+
+      {/* Brand Visual Storytelling Panel: 55-58% width on desktop, hidden on mobile/tablet */}
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `
-            linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px)
-          `,
-          backgroundSize: "40px 40px",
-          maskImage:
-            "radial-gradient(circle at 50% 45%, black 20%, transparent 75%)",
-          WebkitMaskImage:
-            "radial-gradient(circle at 50% 45%, black 20%, transparent 75%)",
-          pointerEvents: "none",
-          zIndex: 1,
+          flex: "1.3 1 0%",
+          display: "flex",
         }}
-      />
-
-      {/* Auth Card Content */}
-      <div style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: "420px" }}>
-        {children}
+        className="hidden lg:flex"
+      >
+        <AuthBrandPanel />
       </div>
     </div>
   );
