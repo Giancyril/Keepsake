@@ -9,10 +9,12 @@ import {
   Folder,
   Search,
   LogOut,
-  Camera,
-  HardDrive,
   Shield,
   Globe,
+  Star,
+  Video,
+  FileText,
+  Maximize,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -30,6 +32,13 @@ export function Sidebar({ user }: SidebarProps) {
     { href: "/map", label: "Places & Map", icon: Globe },
     { href: "/albums", label: "Albums", icon: Folder },
     { href: "/search", label: "Search", icon: Search },
+  ];
+
+  const smartCollections = [
+    { href: "/library?filter=favorites", label: "Favorites", icon: Star, color: "#F59E0B" },
+    { href: "/library?filter=videos", label: "Videos", icon: Video, color: "#4F6EF7" },
+    { href: "/library?filter=panoramas", label: "Panoramas", icon: Maximize, color: "#22C55E" },
+    { href: "/library?filter=scans", label: "Scans & Docs", icon: FileText, color: "#EC4899" },
   ];
 
   return (
@@ -125,6 +134,53 @@ export function Sidebar({ user }: SidebarProps) {
             );
           })}
         </nav>
+
+        {/* Smart Collections */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.375rem" }}>
+          <div
+            style={{
+              fontSize: "0.7rem",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              color: "var(--color-text-faint)",
+              padding: "0 0.875rem",
+              marginBottom: "0.25rem",
+            }}
+          >
+            Collections
+          </div>
+          {smartCollections.map(({ href, label, icon: Icon, color }) => {
+            return (
+              <Link
+                key={href}
+                href={href}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  padding: "0.5rem 0.875rem",
+                  borderRadius: "var(--radius-md)",
+                  fontSize: "var(--text-sm)",
+                  color: "var(--color-text-muted)",
+                  textDecoration: "none",
+                  transition: "all var(--duration-fast)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "var(--color-surface-2)";
+                  e.currentTarget.style.color = "var(--color-text-primary)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "var(--color-text-muted)";
+                }}
+              >
+                <Icon size={16} style={{ color }} />
+                <span>{label}</span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
       {/* Footer Profile & Logout */}
