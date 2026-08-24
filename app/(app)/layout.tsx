@@ -1,5 +1,9 @@
 import { auth } from "@/lib/auth/config";
 import { redirect } from "next/navigation";
+import { UploadProvider } from "@/components/upload/UploadContext";
+import { UploadQueue } from "@/components/upload/UploadQueue";
+import Link from "next/link";
+import { Image as ImageIcon, Folder, Search, LogOut } from "lucide-react";
 
 export default async function AppLayout({
   children,
@@ -10,88 +14,154 @@ export default async function AppLayout({
   if (!session) redirect("/login");
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      {/* Sidebar placeholder — will be a full component in Stage 9 UI pass */}
-      <aside
-        style={{
-          width: "220px",
-          flexShrink: 0,
-          background: "var(--color-surface)",
-          borderRight: "1px solid var(--color-border)",
-          padding: "1.5rem 1rem",
-          display: "flex",
-          flexDirection: "column",
-          gap: "0.25rem",
-        }}
-      >
-        <div
+    <UploadProvider>
+      <div style={{ display: "flex", minHeight: "100vh" }}>
+        {/* Sidebar */}
+        <aside
           style={{
+            width: "240px",
+            flexShrink: 0,
+            background: "var(--color-surface)",
+            borderRight: "1px solid var(--color-border)",
+            padding: "1.5rem 1rem",
             display: "flex",
-            alignItems: "center",
-            gap: "0.625rem",
-            marginBottom: "1.5rem",
-            padding: "0 0.5rem",
+            flexDirection: "column",
+            justifyContent: "space-between",
           }}
         >
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+            {/* Logo */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                marginBottom: "2rem",
+                padding: "0 0.5rem",
+              }}
+            >
+              <div
+                style={{
+                  width: "2rem",
+                  height: "2rem",
+                  background: "linear-gradient(135deg, var(--color-accent), #7C3AED)",
+                  borderRadius: "var(--radius-md)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "0.875rem",
+                  color: "white",
+                  fontWeight: 700,
+                }}
+              >
+                PV
+              </div>
+              <span
+                style={{
+                  fontSize: "var(--text-base)",
+                  fontWeight: 700,
+                  color: "var(--color-text-primary)",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Photo Vault
+              </span>
+            </div>
+
+            {/* Navigation Links */}
+            <nav style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+              {[
+                { href: "/library", label: "Library", icon: ImageIcon },
+                { href: "/albums", label: "Albums", icon: Folder },
+                { href: "/search", label: "Search", icon: Search },
+              ].map(({ href, label, icon: Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    padding: "0.625rem 0.75rem",
+                    borderRadius: "var(--radius-md)",
+                    fontSize: "var(--text-sm)",
+                    fontWeight: 500,
+                    color: "var(--color-text-muted)",
+                    textDecoration: "none",
+                    transition: "all var(--duration-fast)",
+                  }}
+                >
+                  <Icon size={18} />
+                  <span>{label}</span>
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* User profile / Logout */}
           <div
             style={{
-              width: "1.75rem",
-              height: "1.75rem",
-              background: "linear-gradient(135deg, var(--color-accent), #7C3AED)",
-              borderRadius: "0.375rem",
+              borderTop: "1px solid var(--color-border)",
+              paddingTop: "1rem",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              fontSize: "0.75rem",
-              color: "white",
-              fontWeight: 700,
+              justifyContent: "space-between",
             }}
           >
-            PV
+            <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+              <span
+                style={{
+                  fontSize: "var(--text-sm)",
+                  fontWeight: 600,
+                  color: "var(--color-text-primary)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {session.user?.name || "Vault Owner"}
+              </span>
+              <span
+                style={{
+                  fontSize: "var(--text-xs)",
+                  color: "var(--color-text-faint)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {session.user?.email}
+              </span>
+            </div>
+            <form action="/api/auth/signout" method="POST">
+              <button
+                type="submit"
+                title="Sign out"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "var(--color-text-muted)",
+                  cursor: "pointer",
+                  padding: "0.375rem",
+                  borderRadius: "var(--radius-sm)",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <LogOut size={16} />
+              </button>
+            </form>
           </div>
-          <span
-            style={{
-              fontSize: "var(--text-sm)",
-              fontWeight: 600,
-              color: "var(--color-text-primary)",
-            }}
-          >
-            Photo Vault
-          </span>
-        </div>
+        </aside>
 
-        {[
-          { href: "/library", label: "Library" },
-          { href: "/albums", label: "Albums" },
-          { href: "/search", label: "Search" },
-        ].map(({ href, label }) => (
-          <a
-            key={href}
-            href={href}
-            style={{
-              padding: "0.5rem 0.75rem",
-              borderRadius: "var(--radius-md)",
-              fontSize: "var(--text-sm)",
-              color: "var(--color-text-muted)",
-              textDecoration: "none",
-              transition: "background var(--duration-fast), color var(--duration-fast)",
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.background = "var(--color-surface-2)";
-              (e.target as HTMLElement).style.color = "var(--color-text-primary)";
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.background = "transparent";
-              (e.target as HTMLElement).style.color = "var(--color-text-muted)";
-            }}
-          >
-            {label}
-          </a>
-        ))}
-      </aside>
+        {/* Main Content Area */}
+        <main style={{ flex: 1, overflow: "auto", position: "relative" }}>
+          {children}
+        </main>
 
-      {/* Main content */}
-      <main style={{ flex: 1, overflow: "auto" }}>{children}</main>
-    </div>
+        {/* Global floating Upload Queue */}
+        <UploadQueue />
+      </div>
+    </UploadProvider>
   );
 }
