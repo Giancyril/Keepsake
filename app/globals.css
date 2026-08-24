@@ -5,7 +5,7 @@
    Photo-forward: dark, neutral, photos are hero
    ══════════════════════════════════════════════ */
 
-@theme inline {
+:root {
   /* ── Colors ─────────────────────────────── */
   --color-bg:          #0A0A0B;
   --color-surface:     #141416;
