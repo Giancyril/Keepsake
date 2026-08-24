@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { PhotoWithUrls } from "@/types/photo";
 import { isVideo } from "@/lib/utils";
-import { Check, Loader2, AlertCircle, Play } from "lucide-react";
+import { Check, Loader2, AlertCircle, Play, Star } from "lucide-react";
+import { formatVideoDuration } from "@/lib/video/metadata";
 
 interface PhotoGridItemProps {
   photo: PhotoWithUrls;
@@ -70,6 +71,25 @@ export function PhotoGridItem({
         />
       )}
 
+      {/* Video Hover Live Preview */}
+      {video && hovered && photo.originalUrl ? (
+        <video
+          src={photo.originalUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: 2,
+          }}
+        />
+      ) : null}
+
       {/* Image / Thumbnail */}
       {displayUrl && photo.status !== "error" && (
         <img
@@ -86,6 +106,27 @@ export function PhotoGridItem({
             transition: "opacity var(--duration-normal) var(--ease-default)",
           }}
         />
+      )}
+
+      {/* Favorite Star Badge */}
+      {photo.isFavorite && (
+        <div
+          style={{
+            position: "absolute",
+            top: "0.5rem",
+            right: "0.5rem",
+            zIndex: 6,
+            background: "rgba(0, 0, 0, 0.6)",
+            backdropFilter: "blur(4px)",
+            padding: "0.25rem",
+            borderRadius: "var(--radius-full)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Star size={12} fill="#F59E0B" color="#F59E0B" />
+        </div>
       )}
 
       {/* Processing Status Badge */}
@@ -129,28 +170,28 @@ export function PhotoGridItem({
         </div>
       )}
 
-      {/* Video Indicator */}
+      {/* Video Indicator with Duration */}
       {video && (
         <div
           style={{
             position: "absolute",
             bottom: "0.5rem",
             right: "0.5rem",
-            background: "rgba(0, 0, 0, 0.65)",
-            backdropFilter: "blur(4px)",
+            background: "rgba(0, 0, 0, 0.75)",
+            backdropFilter: "blur(6px)",
             borderRadius: "var(--radius-sm)",
-            padding: "0.2rem 0.375rem",
+            padding: "0.2rem 0.4rem",
             display: "flex",
             alignItems: "center",
-            gap: "0.25rem",
+            gap: "0.3rem",
             color: "white",
             fontSize: "0.7rem",
-            fontWeight: 500,
+            fontWeight: 600,
             zIndex: 4,
           }}
         >
           <Play size={10} fill="white" />
-          <span>Video</span>
+          <span>{photo.durationSecs ? formatVideoDuration(photo.durationSecs) : "Video"}</span>
         </div>
       )}
 
