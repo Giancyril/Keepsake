@@ -11,6 +11,7 @@ import { Lightbox } from "@/components/lightbox/Lightbox";
 import { useUpload } from "@/components/upload/UploadContext";
 import { CheckSquare, Square, Trash2, FolderPlus, Share2, RefreshCw, Star, Video, Maximize, FileText } from "lucide-react";
 import { MemoriesCarousel } from "@/components/memories/MemoriesCarousel";
+import { BatchActionDock } from "@/components/library/BatchActionDock";
 
 function LibraryContent() {
   const searchParams = useSearchParams();
@@ -300,6 +301,17 @@ function LibraryContent() {
           }}
         />
       )}
+
+      {/* Floating Batch Operations Action Dock */}
+      <BatchActionDock
+        selectedCount={selectedIds.size}
+        selectedIds={Array.from(selectedIds)}
+        onClearSelection={() => setSelectedIds(new Set())}
+        onRefresh={fetchPhotos}
+        onOpenAlbumSelector={() => {
+          window.location.href = "/albums";
+        }}
+      />
     </div>
   );
 }

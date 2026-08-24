@@ -15,6 +15,7 @@ import {
   Video,
   FileText,
   Maximize,
+  HardDrive,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -32,6 +33,7 @@ export function Sidebar({ user }: SidebarProps) {
     { href: "/map", label: "Places & Map", icon: Globe },
     { href: "/albums", label: "Albums", icon: Folder },
     { href: "/search", label: "Search", icon: Search },
+    { href: "/storage", label: "Storage & Health", icon: HardDrive },
   ];
 
   const smartCollections = [
