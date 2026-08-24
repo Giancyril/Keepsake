@@ -110,31 +110,48 @@ export function ExifPanel({ photo, isOpen }: ExifPanelProps) {
         </div>
 
         {/* GPS Location */}
-        {hasGps && mapsUrl && (
+        {hasGps && (
           <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
             <MapPin size={18} style={{ color: "var(--color-accent)", marginTop: "0.125rem", flexShrink: 0 }} />
             <div>
               <div style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>Location (GPS)</div>
               <div style={{ fontSize: "var(--text-sm)", color: "var(--color-text-primary)", fontWeight: 500 }}>
-                {Number(photo.gpsLat).toFixed(4)}°, {Number(photo.gpsLng).toFixed(4)}°
+                {photo.locationName || `${Number(photo.gpsLat).toFixed(4)}°, ${Number(photo.gpsLng).toFixed(4)}°`}
               </div>
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.25rem",
-                  fontSize: "0.75rem",
-                  color: "var(--color-accent)",
-                  textDecoration: "none",
-                  marginTop: "0.25rem",
-                }}
-              >
-                <span>View on map</span>
-                <ExternalLink size={12} />
-              </a>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginTop: "0.25rem" }}>
+                <a
+                  href="/map"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    fontSize: "0.75rem",
+                    color: "var(--color-accent)",
+                    textDecoration: "none",
+                    fontWeight: 600,
+                  }}
+                >
+                  <span>Keepsake Map</span>
+                </a>
+                {mapsUrl && (
+                  <a
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.25rem",
+                      fontSize: "0.75rem",
+                      color: "var(--color-text-muted)",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span>Google Maps</span>
+                    <ExternalLink size={12} />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         )}
