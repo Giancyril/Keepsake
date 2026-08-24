@@ -140,12 +140,34 @@ export const shares = pgTable(
 );
 
 // ──────────────────────────────────────────────
+// Photo Versions (Non-destructive edit history)
+// ──────────────────────────────────────────────
+export const photoVersions = pgTable(
+  "photo_versions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    photoId: uuid("photo_id")
+      .notNull()
+      .references(() => photos.id, { onDelete: "cascade" }),
+    versionNumber: integer("version_number").notNull().default(1),
+    s3Key: text("s3_key").notNull(),
+    adjustmentsJson: text("adjustments_json"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [index("photo_versions_photo_idx").on(table.photoId)]
+);
+
+// ──────────────────────────────────────────────
 // Type exports (inferred from schema)
 // ──────────────────────────────────────────────
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Photo = typeof photos.$inferSelect;
 export type NewPhoto = typeof photos.$inferInsert;
+export type PhotoVersion = typeof photoVersions.$inferSelect;
+export type NewPhotoVersion = typeof photoVersions.$inferInsert;
 export type Album = typeof albums.$inferSelect;
 export type NewAlbum = typeof albums.$inferInsert;
 export type AlbumPhoto = typeof albumPhotos.$inferSelect;
