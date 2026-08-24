@@ -10,6 +10,8 @@ import { photos } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { isHeic, isVideo } from "@/lib/utils";
 
+import { reverseGeocode } from "@/lib/geo/reverse";
+
 const concurrency = Number(process.env.PROCESSING_CONCURRENCY) || 2;
 const processingQueue = new PQueue({ concurrency });
 
@@ -101,7 +103,17 @@ export function enqueuePhotoProcessing(job: ProcessPhotoJob): void {
         putS3Thumbnail(keyMd, thumbs.md),
       ]);
 
-      // Step 6: Update DB record to "ready" with metadata
+      // Step 6: Reverse geocode if coordinates present
+      let geoInfo: { city?: string; country?: string; countryCode?: string; locationName?: string } = {};
+      if (meta.gpsLat !== undefined && meta.gpsLng !== undefined) {
+        try {
+          geoInfo = await reverseGeocode(meta.gpsLat, meta.gpsLng);
+        } catch (geoErr) {
+          console.warn("[Processing] Reverse geocoding warning:", geoErr);
+        }
+      }
+
+      // Step 7: Update DB record to "ready" with metadata
       await db
         .update(photos)
         .set({
@@ -114,6 +126,10 @@ export function enqueuePhotoProcessing(job: ProcessPhotoJob): void {
           cameraInfo: meta.cameraInfo,
           gpsLat: meta.gpsLat !== undefined ? meta.gpsLat.toString() : undefined,
           gpsLng: meta.gpsLng !== undefined ? meta.gpsLng.toString() : undefined,
+          locationName: geoInfo.locationName,
+          city: geoInfo.city,
+          country: geoInfo.country,
+          countryCode: geoInfo.countryCode,
         })
         .where(eq(photos.id, job.photoId));
 
