@@ -61,6 +61,7 @@ export const photos = pgTable(
     city: text("city"),
     country: text("country"),
     countryCode: text("country_code"),
+    isFavorite: boolean("is_favorite").notNull().default(false),
     // Video-specific
     durationSecs: integer("duration_secs"),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -72,6 +73,7 @@ export const photos = pgTable(
     index("photos_user_status_idx").on(table.userId, table.status),
     index("photos_user_country_idx").on(table.userId, table.country),
     index("photos_user_city_idx").on(table.userId, table.city),
+    index("photos_user_fav_idx").on(table.userId, table.isFavorite),
   ]
 );
 
