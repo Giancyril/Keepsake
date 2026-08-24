@@ -390,7 +390,7 @@ function LoginForm() {
           onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
           onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
         >
-          Create your vault
+          Create an account
         </Link>
       </div>
     </div>

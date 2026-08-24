@@ -118,7 +118,7 @@ export default function RegisterPage() {
             lineHeight: 1.2,
           }}
         >
-          Create your vault
+          Create an account
         </h1>
         <p
           style={{
@@ -355,7 +355,7 @@ export default function RegisterPage() {
               }}
             >
               {loading && <Loader2 size={16} className="animate-spin" />}
-              <span>{loading ? "Creating account…" : "Create vault account"}</span>
+              <span>{loading ? "Creating account…" : "Create account"}</span>
             </button>
           </form>
         </>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AuthBrandPanel } from "@/components/auth/AuthBrandPanel";
 
 export const metadata: Metadata = {
-  title: "Photo Vault",
+  title: "Keepsake",
 };
 
 export default function AuthLayout({
@@ -39,12 +39,13 @@ export default function AuthLayout({
           {children}
         </div>
 
-        {/* Small Form-side Footer */}
+        {/* Footer — pinned to the bottom of the form column */}
         <div
           style={{
             fontSize: "0.75rem",
             color: "var(--color-text-faint)",
-            marginTop: "2rem",
+            marginTop: "auto",
+            paddingTop: "1.5rem",
           }}
         >
           Keepsake • Private & Self-Hosted

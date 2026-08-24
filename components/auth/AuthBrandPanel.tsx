@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { ShieldCheck, Share2, MapPin, Camera, Lock } from "lucide-react";
+import { ShieldCheck, Share2, MapPin, Camera } from "lucide-react";
 
 export function AuthBrandPanel() {
   return (
@@ -13,245 +13,125 @@ export function AuthBrandPanel() {
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
-        padding: "3.5rem 3rem",
       }}
     >
-      {/* Ambient Radial Glow Layers */}
-      <div
-        style={{
-          position: "absolute",
-          top: "20%",
-          right: "10%",
-          width: "500px",
-          height: "500px",
-          background: "radial-gradient(circle, rgba(79, 110, 247, 0.18) 0%, rgba(124, 58, 237, 0.08) 40%, transparent 70%)",
-          filter: "blur(60px)",
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "10%",
-          left: "5%",
-          width: "400px",
-          height: "400px",
-          background: "radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 65%)",
-          filter: "blur(50px)",
-          pointerEvents: "none",
-        }}
-      />
+      {/* ── Full-bleed photo: top 55% of the panel ── */}
+      <div style={{ position: "relative", flex: "0 0 55%", minHeight: 0 }}>
+        <Image
+          src="/kyoto-japan.jpg"
+          alt="Kyoto, Japan"
+          fill
+          sizes="(max-width: 1024px) 0px, 60vw"
+          style={{ objectFit: "cover", objectPosition: "center 60%" }}
+          priority
+        />
 
-      {/* Subtle Micro-Grid Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `
-            linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px)
-          `,
-          backgroundSize: "36px 36px",
-          maskImage: "radial-gradient(circle at 60% 40%, black 30%, transparent 85%)",
-          WebkitMaskImage: "radial-gradient(circle at 60% 40%, black 30%, transparent 85%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* Top Section: Photo Library Floating Cards Mosaic */}
-      <div style={{ position: "relative", zIndex: 10, marginBottom: "2rem" }}>
+        {/* Deep gradient scrim — fades photo into the dark panel background */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1.2fr 1fr",
-            gap: "1rem",
-            transform: "perspective(1000px) rotateY(-4deg) rotateX(2deg)",
-            transformOrigin: "left center",
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.35) 60%, rgba(13,13,15,0.98) 100%)",
+          }}
+        />
+
+        {/* GPS chip — overlaid bottom-left on the photo */}
+        <span
+          style={{
+            position: "absolute",
+            bottom: "1.25rem",
+            left: "1.5rem",
+            background: "rgba(0, 0, 0, 0.5)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            padding: "0.25rem 0.625rem",
+            borderRadius: "var(--radius-full)",
+            fontSize: "0.7rem",
+            fontWeight: 600,
+            color: "rgba(255,255,255,0.9)",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.3rem",
+            border: "1px solid rgba(255,255,255,0.12)",
           }}
         >
-          {/* Card 1: Main Photo Preview with EXIF Tag */}
-          <div
-            style={{
-              background: "rgba(24, 24, 28, 0.75)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              borderRadius: "var(--radius-lg)",
-              overflow: "hidden",
-              boxShadow: "0 20px 40px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset",
-            }}
-          >
-            <div
-              style={{
-                height: "180px",
-                borderRadius: "var(--radius-lg)",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              <Image
-                src="/kyoto-japan.jpg"
-                alt="Kyoto, Japan"
-                fill
-                style={{ objectFit: "cover", objectPosition: "center" }}
-                priority
-              />
-              {/* Gradient scrim so text is legible over the photo */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%)",
-                }}
-              />
-              <span
-                style={{
-                  position: "absolute",
-                  bottom: "0.625rem",
-                  left: "0.625rem",
-                  background: "rgba(0, 0, 0, 0.55)",
-                  backdropFilter: "blur(6px)",
-                  padding: "0.2rem 0.5rem",
-                  borderRadius: "var(--radius-sm)",
-                  fontSize: "0.7rem",
-                  fontWeight: 600,
-                  color: "white",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.25rem",
-                }}
-              >
-                <MapPin size={10} style={{ color: "var(--color-accent)" }} />
-                Kyoto, Japan
-              </span>
-            </div>
-
-
-          </div>
-
-          {/* Card 2: Vault Status Badge Card */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.75rem",
-            }}
-          >
-            {/* Sub-card A: Encryption */}
-            <div
-              style={{
-                background: "rgba(24, 24, 28, 0.75)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "var(--radius-lg)",
-                padding: "0.875rem",
-                boxShadow: "0 15px 30px -10px rgba(0,0,0,0.5)",
-                backdropFilter: "blur(16px)",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.375rem" }}>
-                <div
-                  style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    borderRadius: "var(--radius-sm)",
-                    background: "rgba(34, 197, 94, 0.15)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Lock size={12} style={{ color: "var(--color-success)" }} />
-                </div>
-                <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--color-text-primary)" }}>
-                  Zero Third-Party Storage
-                </span>
-              </div>
-              <p style={{ fontSize: "0.6875rem", color: "var(--color-text-muted)", margin: 0, lineHeight: 1.3 }}>
-                Direct browser-to-S3 pre-signed encrypted upload flow.
-              </p>
-            </div>
-
-            {/* Sub-card B: Share link preview */}
-            <div
-              style={{
-                background: "rgba(24, 24, 28, 0.75)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "var(--radius-lg)",
-                padding: "0.875rem",
-                boxShadow: "0 15px 30px -10px rgba(0,0,0,0.5)",
-                backdropFilter: "blur(16px)",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.375rem" }}>
-                <div
-                  style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    borderRadius: "var(--radius-sm)",
-                    background: "rgba(79, 110, 247, 0.15)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Share2 size={12} style={{ color: "var(--color-accent)" }} />
-                </div>
-                <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--color-text-primary)" }}>
-                  Revocable Sharing
-                </span>
-              </div>
-              <p style={{ fontSize: "0.6875rem", color: "var(--color-text-muted)", margin: 0, lineHeight: 1.3 }}>
-                128-bit cryptographic tokens with custom expiration dates.
-              </p>
-            </div>
-          </div>
-        </div>
+          <MapPin size={10} style={{ color: "var(--color-accent)" }} />
+          Kyoto, Japan
+        </span>
       </div>
 
-      {/* Bottom Section: Headline & Value Proposition */}
-      <div style={{ position: "relative", zIndex: 10 }}>
+      {/* ── Headline + single feature list: bottom 45% ── */}
+      <div
+        style={{
+          flex: "1 1 auto",
+          padding: "2rem 2.5rem 2.5rem",
+          position: "relative",
+          zIndex: 10,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        {/* Ambient glow behind text */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "0",
+            left: "0",
+            right: "0",
+            height: "260px",
+            background:
+              "radial-gradient(ellipse at 50% 100%, rgba(79, 110, 247, 0.12) 0%, transparent 70%)",
+            filter: "blur(40px)",
+            pointerEvents: "none",
+          }}
+        />
+
         <h2
           style={{
-            fontSize: "1.75rem",
+            fontSize: "1.5rem",
             fontWeight: 700,
             color: "var(--color-text-primary)",
             letterSpacing: "-0.03em",
             lineHeight: 1.2,
-            margin: "0 0 0.75rem 0",
+            margin: "0 0 0.5rem 0",
           }}
         >
-          Your memories, your storage, your control.
+          Your memories. Your storage.
+          <br />Your control.
         </h2>
 
         <p
           style={{
-            fontSize: "0.9375rem",
+            fontSize: "0.875rem",
             color: "var(--color-text-muted)",
-            lineHeight: 1.5,
-            margin: "0 0 1.75rem 0",
-            maxWidth: "460px",
+            lineHeight: 1.55,
+            margin: "0 0 1.375rem 0",
+            maxWidth: "400px",
             letterSpacing: "-0.01em",
           }}
         >
-          Keepsake is a self-hosted private vault engineered for total ownership of your high-resolution photos and videos — no third-party cloud required.
+          Keepsake is a private self-hosted vault — no third-party cloud, no data mining.
         </p>
 
-        {/* Feature Bullets */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+        {/* Single, non-redundant feature list */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
           {[
             {
               icon: ShieldCheck,
               title: "Private by default",
-              desc: "Stored securely in your private AWS S3 bucket with no data mining.",
+              desc: "Your files go directly to your own S3 bucket.",
             },
             {
               icon: Camera,
-              title: "Full-fidelity original preservation",
-              desc: "Lossless RAW & HEIC support with complete EXIF and GPS extraction.",
+              title: "Full-fidelity originals",
+              desc: "RAW, HEIC, JPEG — stored losslessly with full EXIF.",
             },
             {
               icon: Share2,
-              title: "Granular link sharing",
-              desc: "Instant expiring links and full owner revocation whenever you want.",
+              title: "Revocable sharing",
+              desc: "Expiring links you can revoke at any time.",
             },
           ].map(({ icon: Icon, title, desc }) => (
             <div
@@ -264,10 +144,11 @@ export function AuthBrandPanel() {
             >
               <div
                 style={{
-                  width: "1.75rem",
-                  height: "1.75rem",
+                  width: "1.625rem",
+                  height: "1.625rem",
                   borderRadius: "var(--radius-sm)",
                   background: "rgba(79, 110, 247, 0.12)",
+                  border: "1px solid rgba(79, 110, 247, 0.2)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -275,13 +156,29 @@ export function AuthBrandPanel() {
                   marginTop: "0.1rem",
                 }}
               >
-                <Icon size={14} style={{ color: "var(--color-accent)" }} />
+                <Icon size={13} style={{ color: "var(--color-accent)" }} />
               </div>
               <div>
-                <span style={{ fontSize: "0.8125rem", fontWeight: 600, color: "var(--color-text-primary)", display: "block" }}>
+                <span
+                  style={{
+                    fontSize: "0.8125rem",
+                    fontWeight: 600,
+                    color: "var(--color-text-primary)",
+                    display: "block",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
                   {title}
                 </span>
-                <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)", display: "block", marginTop: "0.1rem" }}>
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "var(--color-text-muted)",
+                    display: "block",
+                    marginTop: "0.1rem",
+                    lineHeight: 1.4,
+                  }}
+                >
                   {desc}
                 </span>
               </div>
