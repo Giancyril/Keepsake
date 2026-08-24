@@ -76,16 +76,14 @@ export function AuthBrandPanel() {
               background: "rgba(24, 24, 28, 0.75)",
               border: "1px solid rgba(255, 255, 255, 0.1)",
               borderRadius: "var(--radius-lg)",
-              padding: "1rem",
+              overflow: "hidden",
               boxShadow: "0 20px 40px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset",
-              backdropFilter: "blur(16px)",
             }}
           >
             <div
               style={{
-                height: "140px",
-                borderRadius: "var(--radius-md)",
-                marginBottom: "0.75rem",
+                height: "180px",
+                borderRadius: "var(--radius-lg)",
                 position: "relative",
                 overflow: "hidden",
               }}
@@ -127,28 +125,7 @@ export function AuthBrandPanel() {
               </span>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div>
-                <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: "var(--color-text-primary)" }}>
-                  IMG_4082_RAW.dng
-                </div>
-                <div style={{ fontSize: "0.7rem", color: "var(--color-text-muted)", marginTop: "0.15rem" }}>
-                  Sony A7IV • 48.2 MP • 45.8 MB
-                </div>
-              </div>
-              <span
-                style={{
-                  background: "rgba(79, 110, 247, 0.15)",
-                  color: "var(--color-accent)",
-                  padding: "0.2rem 0.45rem",
-                  borderRadius: "var(--radius-sm)",
-                  fontSize: "0.65rem",
-                  fontWeight: 600,
-                }}
-              >
-                RAW
-              </span>
-            </div>
+
           </div>
 
           {/* Card 2: Vault Status Badge Card */}
