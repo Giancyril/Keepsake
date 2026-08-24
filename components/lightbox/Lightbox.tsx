@@ -6,23 +6,33 @@ import { isVideo } from "@/lib/utils";
 import { ExifPanel } from "./ExifPanel";
 import { LightboxNav } from "./LightboxNav";
 import { ShareDialog } from "@/components/sharing/ShareDialog";
-import { X, Info, Download, Trash2, Loader2, AlertCircle, Share2 } from "lucide-react";
+import { PhotoEditor } from "@/components/editor/PhotoEditor";
+import { X, Info, Download, Trash2, Loader2, AlertCircle, Share2, Star, Sliders } from "lucide-react";
 
 interface LightboxProps {
   photos: PhotoWithUrls[];
   currentId: string | null;
   onClose: () => void;
   onDelete?: (id: string) => void;
+  onPhotoUpdated?: (updated: PhotoWithUrls) => void;
 }
 
-export function Lightbox({ photos, currentId, onClose, onDelete }: LightboxProps) {
+export function Lightbox({ photos, currentId, onClose, onDelete, onPhotoUpdated }: LightboxProps) {
   const [showInfo, setShowInfo] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const [editorOpen, setEditorOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const currentIndex = photos.findIndex((p) => p.id === currentId);
   const currentPhoto = currentIndex !== -1 ? photos[currentIndex] : null;
+
+  useEffect(() => {
+    if (currentPhoto) {
+      setIsFavorite(Boolean(currentPhoto.isFavorite));
+    }
+  }, [currentPhoto]);
 
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < photos.length - 1;
@@ -136,6 +146,57 @@ export function Lightbox({ photos, currentId, onClose, onDelete }: LightboxProps
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          {/* Favorite Toggle */}
+          <button
+            onClick={async () => {
+              if (!currentPhoto) return;
+              const nextFav = !isFavorite;
+              setIsFavorite(nextFav);
+              try {
+                await fetch(`/api/photos/${currentPhoto.id}/favorite`, {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ isFavorite: nextFav }),
+                });
+              } catch (err) {
+                console.error("Favorite toggle failed:", err);
+              }
+            }}
+            title={isFavorite ? "Favorited" : "Add to favorites"}
+            style={{
+              background: isFavorite ? "rgba(245, 158, 11, 0.2)" : "rgba(255,255,255,0.1)",
+              border: isFavorite ? "1px solid #F59E0B" : "1px solid transparent",
+              color: isFavorite ? "#F59E0B" : "white",
+              padding: "0.5rem",
+              borderRadius: "var(--radius-full)",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Star size={18} fill={isFavorite ? "#F59E0B" : "none"} />
+          </button>
+
+          {/* Photo Editor */}
+          {!video && (
+            <button
+              onClick={() => setEditorOpen(true)}
+              title="Edit photo (Studio)"
+              style={{
+                background: "rgba(255,255,255,0.1)",
+                border: "1px solid transparent",
+                color: "white",
+                padding: "0.5rem",
+                borderRadius: "var(--radius-full)",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Sliders size={18} />
+            </button>
+          )}
+
           {/* Share photo */}
           <button
             onClick={() => setShareOpen(true)}
@@ -312,6 +373,18 @@ export function Lightbox({ photos, currentId, onClose, onDelete }: LightboxProps
         title={currentPhoto.filename}
         onClose={() => setShareOpen(false)}
       />
+
+      {/* Photo Studio Editor */}
+      {editorOpen && (
+        <PhotoEditor
+          photo={currentPhoto}
+          isOpen={editorOpen}
+          onClose={() => setEditorOpen(false)}
+          onSaved={() => {
+            setEditorOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }
