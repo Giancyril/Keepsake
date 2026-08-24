@@ -73,13 +73,7 @@ Browser (Client)
 
 ### 2. Environment Configuration
 
-Copy `.env.example` to `.env.local`:
-
-```bash
-cp .env.example .env.local
-```
-
-Fill in the required values:
+Configure your `.env` file with your credentials:
 
 ```env
 # AWS
