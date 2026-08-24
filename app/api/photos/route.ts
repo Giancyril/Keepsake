@@ -86,8 +86,23 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get("search");
     const dateFrom = searchParams.get("dateFrom");
     const dateTo = searchParams.get("dateTo");
+    const filter = searchParams.get("filter"); // favorites | videos | panoramas | scans | recent
 
     const conditions = [eq(photos.userId, session.user.id)];
+
+    // Smart collection filters
+    if (filter === "favorites") {
+      conditions.push(eq(photos.isFavorite, true));
+    } else if (filter === "videos") {
+      conditions.push(ilike(photos.mimeType, "video/%"));
+    } else if (filter === "panoramas") {
+      // Aspect ratio > 2:1
+      conditions.push(sql`${photos.width} >= ${photos.height} * 2`);
+    } else if (filter === "scans") {
+      conditions.push(
+        sql`(${photos.filename} ILIKE '%screenshot%' OR ${photos.filename} ILIKE '%scan%' OR ${photos.mimeType} = 'application/pdf')`
+      );
+    }
 
     if (cursor) {
       const cursorDate = new Date(cursor);
@@ -157,6 +172,11 @@ export async function GET(req: NextRequest) {
           gpsLat: p.gpsLat,
           gpsLng: p.gpsLng,
           durationSecs: p.durationSecs,
+          isFavorite: p.isFavorite,
+          locationName: p.locationName,
+          city: p.city,
+          country: p.country,
+          countryCode: p.countryCode,
           originalUrl: urls.originalUrl,
           thumbnailSmUrl: urls.thumbnailSmUrl,
           thumbnailMdUrl: urls.thumbnailMdUrl,

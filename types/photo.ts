@@ -16,6 +16,11 @@ export interface PhotoWithUrls {
   gpsLat: string | null;
   gpsLng: string | null;
   durationSecs: number | null;
+  isFavorite?: boolean;
+  locationName?: string | null;
+  city?: string | null;
+  country?: string | null;
+  countryCode?: string | null;
   // Pre-signed URLs (null when photo is still processing)
   originalUrl: string | null;
   thumbnailSmUrl: string | null;
