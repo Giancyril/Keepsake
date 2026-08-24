@@ -38,7 +38,7 @@ function WayfindingLogo() {
           letterSpacing: "-0.02em",
         }}
       >
-        Photo Vault
+        Keepsake
       </span>
     </div>
   );
@@ -211,7 +211,7 @@ export default function RegisterPage() {
                   onChange={(e) => setName(e.target.value)}
                   onFocus={() => setNameFocused(true)}
                   onBlur={() => setNameFocused(false)}
-                  placeholder="Your name"
+                  placeholder=" "
                   style={getInputStyle(nameFocused)}
                 />
               </div>
@@ -254,7 +254,7 @@ export default function RegisterPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   onFocus={() => setEmailFocused(true)}
                   onBlur={() => setEmailFocused(false)}
-                  placeholder="you@example.com"
+                  placeholder=" "
                   style={getInputStyle(emailFocused)}
                 />
               </div>

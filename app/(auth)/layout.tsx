@@ -47,7 +47,7 @@ export default function AuthLayout({
             marginTop: "2rem",
           }}
         >
-          Photo Vault • Private & Self-Hosted
+          Keepsake • Private & Self-Hosted
         </div>
       </div>
 

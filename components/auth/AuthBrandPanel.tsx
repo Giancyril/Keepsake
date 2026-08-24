@@ -1,5 +1,6 @@
 import React from "react";
-import { ShieldCheck, HardDrive, Share2, Sparkles, MapPin, Camera, Lock } from "lucide-react";
+import Image from "next/image";
+import { ShieldCheck, Share2, MapPin, Camera, Lock } from "lucide-react";
 
 export function AuthBrandPanel() {
   return (
@@ -82,27 +83,34 @@ export function AuthBrandPanel() {
           >
             <div
               style={{
-                height: "120px",
+                height: "140px",
                 borderRadius: "var(--radius-md)",
-                background: "linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%)",
                 marginBottom: "0.75rem",
-                display: "flex",
-                alignItems: "flex-end",
-                padding: "0.75rem",
                 position: "relative",
                 overflow: "hidden",
               }}
             >
+              <Image
+                src="/kyoto-japan.jpg"
+                alt="Kyoto, Japan"
+                fill
+                style={{ objectFit: "cover", objectPosition: "center" }}
+                priority
+              />
+              {/* Gradient scrim so text is legible over the photo */}
               <div
                 style={{
                   position: "absolute",
                   inset: 0,
-                  background: "radial-gradient(circle at 70% 30%, rgba(255,255,255,0.15), transparent 60%)",
+                  background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%)",
                 }}
               />
               <span
                 style={{
-                  background: "rgba(0, 0, 0, 0.65)",
+                  position: "absolute",
+                  bottom: "0.625rem",
+                  left: "0.625rem",
+                  background: "rgba(0, 0, 0, 0.55)",
                   backdropFilter: "blur(6px)",
                   padding: "0.2rem 0.5rem",
                   borderRadius: "var(--radius-sm)",
@@ -247,7 +255,7 @@ export function AuthBrandPanel() {
             letterSpacing: "-0.01em",
           }}
         >
-          A self-hosted private cloud vault engineered for total ownership of your high-resolution photos and videos.
+          Keepsake is a self-hosted private vault engineered for total ownership of your high-resolution photos and videos — no third-party cloud required.
         </p>
 
         {/* Feature Bullets */}

@@ -42,7 +42,7 @@ function WayfindingLogo() {
           letterSpacing: "-0.02em",
         }}
       >
-        Photo Vault
+        Keepsake
       </span>
     </div>
   );
@@ -179,7 +179,7 @@ function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
-              placeholder="you@example.com"
+              placeholder=" "
               style={{
                 width: "100%",
                 padding: "0.6875rem 0.875rem 0.6875rem 2.625rem",
