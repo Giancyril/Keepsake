@@ -6,11 +6,13 @@ import { UploadZone } from "@/components/upload/UploadZone";
 import { PhotoGrid } from "@/components/library/PhotoGrid";
 import { SkeletonGrid } from "@/components/library/SkeletonGrid";
 import { EmptyState } from "@/components/layout/EmptyState";
+import { Lightbox } from "@/components/lightbox/Lightbox";
 import { useUpload } from "@/components/upload/UploadContext";
 import { CheckSquare, Square, Trash2, FolderPlus, Share2, RefreshCw } from "lucide-react";
 
 export default function LibraryPage() {
   const [photos, setPhotos] = useState<PhotoWithUrls[]>([]);
+  const [activePhotoId, setActivePhotoId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -236,9 +238,22 @@ export default function LibraryPage() {
             isSelectMode={isSelectMode}
             onToggleSelect={toggleSelect}
             onToggleSelectGroup={toggleSelectGroup}
+            onPhotoClick={(photo) => setActivePhotoId(photo.id)}
           />
         )}
       </section>
+
+      {/* Lightbox Fullscreen View */}
+      {activePhotoId && (
+        <Lightbox
+          photos={photos}
+          currentId={activePhotoId}
+          onClose={() => setActivePhotoId(null)}
+          onDelete={(deletedId) => {
+            setPhotos((prev) => prev.filter((p) => p.id !== deletedId));
+          }}
+        />
+      )}
     </div>
   );
 }
