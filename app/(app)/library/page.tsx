@@ -9,6 +9,7 @@ import { EmptyState } from "@/components/layout/EmptyState";
 import { Lightbox } from "@/components/lightbox/Lightbox";
 import { useUpload } from "@/components/upload/UploadContext";
 import { CheckSquare, Square, Trash2, FolderPlus, Share2, RefreshCw } from "lucide-react";
+import { MemoriesCarousel } from "@/components/memories/MemoriesCarousel";
 
 export default function LibraryPage() {
   const [photos, setPhotos] = useState<PhotoWithUrls[]>([]);
@@ -217,6 +218,9 @@ export default function LibraryPage() {
       <section style={{ marginBottom: "2.5rem" }}>
         <UploadZone />
       </section>
+
+      {/* Memories & Throwback Story Carousel */}
+      <MemoriesCarousel onSelectPhoto={(id) => setActivePhotoId(id)} />
 
       {/* Photo Library Grid */}
       <section>
