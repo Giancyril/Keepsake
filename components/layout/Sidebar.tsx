@@ -12,6 +12,7 @@ import {
   Camera,
   HardDrive,
   Shield,
+  Globe,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -26,6 +27,7 @@ export function Sidebar({ user }: SidebarProps) {
 
   const navItems = [
     { href: "/library", label: "Library", icon: ImageIcon },
+    { href: "/map", label: "Places & Map", icon: Globe },
     { href: "/albums", label: "Albums", icon: Folder },
     { href: "/search", label: "Search", icon: Search },
   ];
