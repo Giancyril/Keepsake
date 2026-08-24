@@ -10,7 +10,9 @@ declare global {
 
 function createPool(): Pool {
   return new Pool({
-    connectionString: process.env.DATABASE_URL!,
+    connectionString:
+      process.env.DATABASE_URL ||
+      "postgresql://postgres:postgres@localhost:5432/photo_vault",
     max: 10,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,

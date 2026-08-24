@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Camera, Mail, Lock, AlertCircle, Loader2 } from "lucide-react";
-import type { Metadata } from "next";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/library";
@@ -262,5 +261,19 @@ export default function LoginPage() {
         </Link>
       </p>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div style={{ display: "flex", justifyContent: "center", padding: "3rem" }}>
+          <Loader2 size={28} className="animate-spin" style={{ color: "var(--color-accent)" }} />
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

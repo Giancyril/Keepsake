@@ -6,15 +6,9 @@ declare global {
 }
 
 function createS3Client(): S3Client {
-  const region = process.env.AWS_REGION;
-  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
-
-  if (!region || !accessKeyId || !secretAccessKey) {
-    throw new Error(
-      "Missing required AWS environment variables: AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY"
-    );
-  }
+  const region = process.env.AWS_REGION || "us-east-1";
+  const accessKeyId = process.env.AWS_ACCESS_KEY_ID || "mock-access-key";
+  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || "mock-secret-key";
 
   return new S3Client({
     region,
@@ -31,4 +25,4 @@ if (process.env.NODE_ENV !== "production") {
   globalThis._s3Client = s3;
 }
 
-export const BUCKET = process.env.S3_BUCKET_NAME!;
+export const BUCKET = process.env.S3_BUCKET_NAME || "photo-vault-bucket";
