@@ -15,27 +15,13 @@ function WayfindingLogo() {
         marginBottom: "2rem",
       }}
     >
-      <div
-        style={{
-          width: "2rem",
-          height: "2rem",
-          background: "linear-gradient(135deg, var(--color-accent), #7C3AED)",
-          borderRadius: "0.5rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "white",
-          boxShadow: "0 2px 8px rgba(79, 110, 247, 0.35)",
-        }}
-      >
-        <Camera size={15} strokeWidth={2.2} />
-      </div>
+
       <span
         style={{
           fontSize: "0.9375rem",
           fontWeight: 700,
           color: "var(--color-text-primary)",
-          letterSpacing: "-0.02em",
+          letterSpacing: "0.1em",
         }}
       >
         Keepsake

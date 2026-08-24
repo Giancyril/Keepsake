@@ -18,7 +18,7 @@ export function AuthBrandPanel() {
       {/* ── Full-bleed photo: top 55% of the panel ── */}
       <div style={{ position: "relative", flex: "0 0 55%", minHeight: 0 }}>
         <Image
-          src="/kyoto-japan.jpg"
+          src="/night.png"
           alt="Kyoto, Japan"
           fill
           sizes="(max-width: 1024px) 0px, 60vw"
@@ -112,7 +112,7 @@ export function AuthBrandPanel() {
             letterSpacing: "-0.01em",
           }}
         >
-          Keepsake is a private self-hosted vault — no third-party cloud, no data mining.
+          Keepsake is a private self-hosted vault no third-party cloud, no data mining.
         </p>
 
         {/* Single, non-redundant feature list */}
@@ -126,7 +126,7 @@ export function AuthBrandPanel() {
             {
               icon: Camera,
               title: "Full-fidelity originals",
-              desc: "RAW, HEIC, JPEG — stored losslessly with full EXIF.",
+              desc: "RAW, HEIC, JPEG stored losslessly with full EXIF.",
             },
             {
               icon: Share2,

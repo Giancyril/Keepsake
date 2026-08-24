@@ -57,6 +57,10 @@ export const photos = pgTable(
     gpsLat: decimal("gps_lat", { precision: 10, scale: 8 }),
     gpsLng: decimal("gps_lng", { precision: 11, scale: 8 }),
     gpsDisclosed: boolean("gps_disclosed").notNull().default(false),
+    locationName: text("location_name"),
+    city: text("city"),
+    country: text("country"),
+    countryCode: text("country_code"),
     // Video-specific
     durationSecs: integer("duration_secs"),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -66,6 +70,8 @@ export const photos = pgTable(
   (table) => [
     index("photos_user_taken_idx").on(table.userId, table.takenAt),
     index("photos_user_status_idx").on(table.userId, table.status),
+    index("photos_user_country_idx").on(table.userId, table.country),
+    index("photos_user_city_idx").on(table.userId, table.city),
   ]
 );
 

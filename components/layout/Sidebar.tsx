@@ -56,33 +56,19 @@ export function Sidebar({ user }: SidebarProps) {
             padding: "0 0.5rem",
           }}
         >
-          <div
-            style={{
-              width: "2.25rem",
-              height: "2.25rem",
-              background: "linear-gradient(135deg, var(--color-accent), #7C3AED)",
-              borderRadius: "var(--radius-md)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              boxShadow: "0 4px 12px rgba(79, 110, 247, 0.3)",
-            }}
-          >
-            <Camera size={18} strokeWidth={2.2} />
-          </div>
+
           <div>
             <span
               style={{
                 fontSize: "var(--text-base)",
                 fontWeight: 700,
                 color: "var(--color-text-primary)",
-                letterSpacing: "-0.02em",
+                letterSpacing: "0.1em",
                 display: "block",
                 lineHeight: 1.1,
               }}
             >
-              Photo Vault
+              Keepsafe
             </span>
             <span
               style={{
