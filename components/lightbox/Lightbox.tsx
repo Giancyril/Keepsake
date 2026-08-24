@@ -5,7 +5,8 @@ import { PhotoWithUrls } from "@/types/photo";
 import { isVideo } from "@/lib/utils";
 import { ExifPanel } from "./ExifPanel";
 import { LightboxNav } from "./LightboxNav";
-import { X, Info, Download, Trash2, Loader2, AlertCircle } from "lucide-react";
+import { ShareDialog } from "@/components/sharing/ShareDialog";
+import { X, Info, Download, Trash2, Loader2, AlertCircle, Share2 } from "lucide-react";
 
 interface LightboxProps {
   photos: PhotoWithUrls[];
@@ -16,6 +17,7 @@ interface LightboxProps {
 
 export function Lightbox({ photos, currentId, onClose, onDelete }: LightboxProps) {
   const [showInfo, setShowInfo] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
@@ -134,6 +136,24 @@ export function Lightbox({ photos, currentId, onClose, onDelete }: LightboxProps
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          {/* Share photo */}
+          <button
+            onClick={() => setShareOpen(true)}
+            title="Share photo"
+            style={{
+              background: "rgba(255,255,255,0.1)",
+              border: "1px solid transparent",
+              color: "white",
+              padding: "0.5rem",
+              borderRadius: "var(--radius-full)",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Share2 size={18} />
+          </button>
+
           {/* EXIF Info toggle */}
           <button
             onClick={() => setShowInfo(!showInfo)}
@@ -283,6 +303,15 @@ export function Lightbox({ photos, currentId, onClose, onDelete }: LightboxProps
         {/* EXIF Information Sidebar */}
         <ExifPanel photo={currentPhoto} isOpen={showInfo} onClose={() => setShowInfo(false)} />
       </div>
+
+      {/* Share Dialog */}
+      <ShareDialog
+        isOpen={shareOpen}
+        targetType="photo"
+        targetId={currentPhoto.id}
+        title={currentPhoto.filename}
+        onClose={() => setShareOpen(false)}
+      />
     </div>
   );
 }

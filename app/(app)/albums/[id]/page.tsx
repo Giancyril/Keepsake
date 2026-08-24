@@ -6,6 +6,7 @@ import { Album } from "@/types/album";
 import { PhotoWithUrls } from "@/types/photo";
 import { PhotoGrid } from "@/components/library/PhotoGrid";
 import { PhotoSelector } from "@/components/albums/PhotoSelector";
+import { ShareDialog } from "@/components/sharing/ShareDialog";
 import { Lightbox } from "@/components/lightbox/Lightbox";
 import { EmptyState } from "@/components/layout/EmptyState";
 import {
@@ -31,6 +32,7 @@ export default function SingleAlbumPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [selectorOpen, setSelectorOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [activePhotoId, setActivePhotoId] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [isSelectMode, setIsSelectMode] = useState(false);
@@ -257,6 +259,26 @@ export default function SingleAlbumPage() {
         {/* Header Actions */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
           <button
+            onClick={() => setShareOpen(true)}
+            style={{
+              background: "var(--color-surface-2)",
+              border: "1px solid var(--color-border)",
+              color: "var(--color-text-primary)",
+              padding: "0.5rem 1rem",
+              borderRadius: "var(--radius-md)",
+              fontSize: "var(--text-sm)",
+              fontWeight: 500,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.375rem",
+            }}
+          >
+            <Share2 size={16} />
+            <span>Share</span>
+          </button>
+
+          <button
             onClick={() => setSelectorOpen(true)}
             style={{
               background: "var(--color-accent)",
@@ -391,6 +413,15 @@ export default function SingleAlbumPage() {
         existingPhotoIds={new Set(photos.map((p) => p.id))}
         onClose={() => setSelectorOpen(false)}
         onAdded={fetchAlbumData}
+      />
+
+      {/* Share Dialog */}
+      <ShareDialog
+        isOpen={shareOpen}
+        targetType="album"
+        targetId={albumId}
+        title={album.name}
+        onClose={() => setShareOpen(false)}
       />
 
       {/* Lightbox */}
