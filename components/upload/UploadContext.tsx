@@ -117,6 +117,7 @@ export function UploadProvider({ children }: { children: React.ReactNode }) {
             filename: item.file.name,
             mimeType: item.file.type || "application/octet-stream",
             size: item.file.size,
+            stripGps: stripGpsOnUpload,
           }),
         });
 

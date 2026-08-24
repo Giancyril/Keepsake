@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth/config";
 import { db } from "@/lib/db/client";
 import { photos } from "@/lib/db/schema";
+import { enqueuePhotoProcessing } from "@/lib/processing/queue";
 import { z } from "zod";
 
 const confirmPhotoSchema = z.object({
@@ -9,6 +10,7 @@ const confirmPhotoSchema = z.object({
   filename: z.string().min(1),
   mimeType: z.string().min(1),
   size: z.number().int().positive(),
+  stripGps: z.boolean().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -28,9 +30,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { s3Key, filename, mimeType, size } = parsed.data;
+    const { s3Key, filename, mimeType, size, stripGps } = parsed.data;
 
-    // Security check: ensure the S3 key belongs to the current authenticated user
+    // Security check: ensure the S3 key belongs to the authenticated user
     const expectedPrefix = `originals/${session.user.id}/`;
     if (!s3Key.startsWith(expectedPrefix)) {
       return NextResponse.json(
@@ -48,9 +50,17 @@ export async function POST(req: NextRequest) {
         filename,
         mimeType,
         fileSize: size,
-        status: "processing", // will be updated to "ready" when processing pipeline finishes
+        status: "processing",
       })
       .returning();
+
+    // Trigger async processing pipeline (EXIF + Thumbnails + S3 upload)
+    enqueuePhotoProcessing({
+      photoId: photo.id,
+      s3Key: photo.s3Key,
+      mimeType: photo.mimeType,
+      stripGps,
+    });
 
     return NextResponse.json({ photo }, { status: 201 });
   } catch (err) {
