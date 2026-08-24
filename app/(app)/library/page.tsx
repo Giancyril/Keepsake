@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { PhotoWithUrls } from "@/types/photo";
 import { UploadZone } from "@/components/upload/UploadZone";
 import { PhotoGrid } from "@/components/library/PhotoGrid";
@@ -8,10 +9,13 @@ import { SkeletonGrid } from "@/components/library/SkeletonGrid";
 import { EmptyState } from "@/components/layout/EmptyState";
 import { Lightbox } from "@/components/lightbox/Lightbox";
 import { useUpload } from "@/components/upload/UploadContext";
-import { CheckSquare, Square, Trash2, FolderPlus, Share2, RefreshCw } from "lucide-react";
+import { CheckSquare, Square, Trash2, FolderPlus, Share2, RefreshCw, Star, Video, Maximize, FileText } from "lucide-react";
 import { MemoriesCarousel } from "@/components/memories/MemoriesCarousel";
 
-export default function LibraryPage() {
+function LibraryContent() {
+  const searchParams = useSearchParams();
+  const filter = searchParams.get("filter"); // favorites | videos | panoramas | scans | null
+
   const [photos, setPhotos] = useState<PhotoWithUrls[]>([]);
   const [activePhotoId, setActivePhotoId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +26,9 @@ export default function LibraryPage() {
 
   const fetchPhotos = useCallback(async () => {
     try {
-      const res = await fetch("/api/photos?limit=100");
+      setLoading(true);
+      const url = filter ? `/api/photos?limit=100&filter=${filter}` : "/api/photos?limit=100";
+      const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to fetch photos");
       const data = await res.json();
       setPhotos(data.photos || []);
@@ -31,7 +37,7 @@ export default function LibraryPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [filter]);
 
   useEffect(() => {
     fetchPhotos();
@@ -104,6 +110,36 @@ export default function LibraryPage() {
           gap: "1rem",
         }}
       >
+  const getCollectionTitle = () => {
+    switch (filter) {
+      case "favorites":
+        return { title: "Favorites", subtitle: "Photos and videos you've starred" };
+      case "videos":
+        return { title: "Videos & Motion", subtitle: "All recorded videos and motion clips" };
+      case "panoramas":
+        return { title: "Panoramas", subtitle: "Ultra-wide perspective captures" };
+      case "scans":
+        return { title: "Documents & Scans", subtitle: "Receipts, documents, and screenshots" };
+      default:
+        return { title: "Photos", subtitle: `${photos.length} ${photos.length === 1 ? "item" : "items"} in your vault` };
+    }
+  };
+
+  const collectionInfo = getCollectionTitle();
+
+  return (
+    <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "2rem 1.5rem" }}>
+      {/* Top Header */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: "1.5rem",
+          flexWrap: "wrap",
+          gap: "1rem",
+        }}
+      >
         <div>
           <h1
             style={{
@@ -115,10 +151,10 @@ export default function LibraryPage() {
               marginBottom: "0.25rem",
             }}
           >
-            Photos
+            {collectionInfo.title}
           </h1>
           <p style={{ color: "var(--color-text-muted)", fontSize: "var(--text-sm)", margin: 0 }}>
-            {photos.length} {photos.length === 1 ? "item" : "items"} in your vault
+            {collectionInfo.subtitle}
           </p>
         </div>
 
@@ -208,19 +244,21 @@ export default function LibraryPage() {
 
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <span style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>
-              (Actions available in Albums & Sharing tabs)
+              (Actions available in Albums &amp; Sharing tabs)
             </span>
           </div>
         </div>
       )}
 
-      {/* Upload Zone */}
-      <section style={{ marginBottom: "2.5rem" }}>
-        <UploadZone />
-      </section>
+      {/* Upload Zone (shown in standard library view) */}
+      {!filter && (
+        <section style={{ marginBottom: "2.5rem" }}>
+          <UploadZone />
+        </section>
+      )}
 
-      {/* Memories & Throwback Story Carousel */}
-      <MemoriesCarousel onSelectPhoto={(id) => setActivePhotoId(id)} />
+      {/* Memories & Throwback Story Carousel (shown in standard library view) */}
+      {!filter && <MemoriesCarousel onSelectPhoto={(id) => setActivePhotoId(id)} />}
 
       {/* Photo Library Grid */}
       <section>
@@ -232,8 +270,12 @@ export default function LibraryPage() {
           </div>
         ) : photos.length === 0 ? (
           <EmptyState
-            title="Your vault is empty"
-            description="Drag and drop photos or videos above to begin building your private library."
+            title={filter ? `No ${collectionInfo.title.toLowerCase()} found` : "Your vault is empty"}
+            description={
+              filter
+                ? "Items matching this collection filter will appear here."
+                : "Drag and drop photos or videos above to begin building your private library."
+            }
           />
         ) : (
           <PhotoGrid
@@ -259,5 +301,13 @@ export default function LibraryPage() {
         />
       )}
     </div>
+  );
+}
+
+export default function LibraryPage() {
+  return (
+    <Suspense fallback={<SkeletonGrid count={24} />}>
+      <LibraryContent />
+    </Suspense>
   );
 }
