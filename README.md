@@ -21,10 +21,10 @@ A production-grade, self-hosted, private cloud-native alternative to Apple Photo
 - **"On This Day" Throwback Memories Engine**: Scans your vault for photos taken on today's calendar date across previous years (1 year ago, 2 years ago, 5 years ago) and groups them into nostalgic Memory Story Capsules.
 - **Memories Story Carousel**: Instagram & Apple Photos-inspired horizontal story card carousel on the Library header featuring cover previews, ambient radial glow, and golden timestamp tags.
 - **Smart Dynamic Collections**: Automated sidebar collection filters with live item counts:
-  - ⭐ **Favorites**: 1-click starred memories with optimistic UI updates.
-  - 🎥 **Videos & Motion**: Dedicated video gallery with duration badges.
-  - 🌄 **Panoramas**: Auto-detected ultra-wide perspective captures (aspect ratio ≥ 2:1).
-  - 📄 **Documents & Scans**: Receipts, whiteboard notes, and screenshots.
+  - **Favorites**: 1-click starred memories with optimistic UI updates.
+  - **Videos & Motion**: Dedicated video gallery with duration badges.
+  - **Panoramas**: Auto-detected ultra-wide perspective captures (aspect ratio ≥ 2:1).
+  - **Documents & Scans**: Receipts, whiteboard notes, and screenshots.
 - **Non-Destructive In-Browser Photo Editor**: Full-featured studio canvas dialog integrated into the Lightbox:
   - **Live Adjustments**: Real-time slider controls for Exposure/Brightness, Contrast, Saturation, Temperature (Warm/Cool), and Vignette.
   - **Curated Film Looks**: 6 film presets (*Vivid Pop*, *Monochrome Noir*, *Warm Vintage*, *Cinematic Cool*, *Golden Hour*, *Original*).
@@ -36,10 +36,10 @@ A production-grade, self-hosted, private cloud-native alternative to Apple Photo
   - **Apple Live Photo Pairing**: Automatically detects paired `.heic` + `.mov` assets, rendering a sleek **"LIVE"** badge and interactive hold-to-play motion playback.
   - **Video Duration Extraction**: Auto-extracts exact runtimes and dimensions during ingestion.
 - **Floating Batch Operations Action Dock**: Bottom-docked glassmorphic multi-select action bar providing power-user mass operations:
-  - 📥 **Batch ZIP Takeout**: Streams selected items + a structured `manifest.json` metadata file directly into a `.zip` archive.
-  - ⭐ **Batch Favorite**: Stars all selected photos in parallel.
-  - 📁 **Batch Album Assignment**: Direct batch assignment to custom collections.
-  - 🗑️ **Batch Delete**: Permanent S3 & PostgreSQL cleanup with confirmation safeguards.
+  - **Batch ZIP Takeout**: Streams selected items + a structured `manifest.json` metadata file directly into a `.zip` archive.
+  - **Batch Favorite**: Stars all selected photos in parallel.
+  - **Batch Album Assignment**: Direct batch assignment to custom collections.
+  - **Batch Delete**: Permanent S3 & PostgreSQL cleanup with confirmation safeguards.
 - **Vault Storage & Health Analytics (`/storage`)**:
   - **Storage Breakdown Chart**: Multi-color interactive capacity bar segmenting RAW Negatives, HEIC, Standard JPEG/PNG, Videos, and Other documents.
   - **Camera Gear Breakdown**: Ranked chart of top camera models and lens systems detected in your library.
